@@ -2,7 +2,7 @@ const express = require('express');
 const i18next = require('i18next');
 const middleware = require('i18next-express-middleware');
 const Backend = require('i18next-node-fs-backend');
-const fileRoutes = require('./routes/fileRoutes');
+const fileRoutes = require('./routes/files');
 
 const app = express();
 
