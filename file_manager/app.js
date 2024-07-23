@@ -17,6 +17,12 @@ i18next.use(Backend).use(middleware.LanguageDetector).init({
     }
 });
 
+app.use(express.json());
+
+app.get('/', (req, res) => {
+    res.send('Welcome to the File Manager Application!');
+});
+
 app.use(middleware.handle(i18next));
 app.use(express.json());
 app.use('/api', fileRoutes);
