@@ -1,37 +1,19 @@
 const express = require('express');
-const File = require('../models/file');
-const multer = require('multer');
-const db = require('../config/db');
-const fileQueue = require('../config/queue');
+const multer = require('multer'); // Add this line
 const router = express.Router();
 
-const path = require('path');
-
-// Configure multer for file uploads
+// Configure multer storage
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/'); // Set the upload destination folder
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/');
   },
-  filename: (req, file, cb) => {
-    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + '-' + Date.now() + '-' + file.originalname);
   }
 });
 
 const upload = multer({ storage: storage });
 
-// Define the /upload route
-router.post('/upload', upload.single('file'), (req, res) => {
-  if (!req.file) {
-    return res.status(400).send('No file uploaded.');
-  }
-
-  // Add a job to the queue
-  fileQueue.add({
-    fileName: req.file.filename
-  });
-  res.send('File upload queued');
-});
-
-// Define additional file routes here
+// Define routes and other logic here
 
 module.exports = router;
