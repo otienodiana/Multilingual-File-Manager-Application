@@ -12,11 +12,13 @@ router.post('/register', async (req, res) => {
       return res.status(400).json({ message: 'Username and password are required' });
     }
 
+    // Check if user already exists
     const existingUser = await User.findOne({ where: { username } });
     if (existingUser) {
       return res.status(400).json({ message: 'User already exists' });
     }
 
+    // Create a new user
     const user = await User.create({ username, password });
 
     res.status(201).json({ message: 'User registered successfully', user });
@@ -32,13 +34,13 @@ router.post('/login', passport.authenticate('local', { session: true }), (req, r
 });
 
 // Logout route
-router.get('/logout', (req, res) => {
+router.post('/logout', (req, res) => {
   req.logout((err) => {
     if (err) {
       console.error('Error logging out:', err);
       return res.status(500).json({ message: 'Error logging out', error: err.message });
     }
-    res.status(200).send('Logged out');
+    res.status(200).json({ message: 'Logged out successfully' });
   });
 });
 
