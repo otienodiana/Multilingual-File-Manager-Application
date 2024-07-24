@@ -20,7 +20,7 @@ const app = express();
 i18next
   .use(Backend)
   .use(i18nextMiddleware.LanguageDetector)
-  .init({
+  .init
 // i18next initialization
 i18next
   .use(Backend)
@@ -29,7 +29,7 @@ i18next
     fallbackLng: 'en',
     preload: ['en', 'es'], // languages to preload
     backend: {
-      loadPath: __dirname + '/locales/{{lng}}/{{ns}}.json' // path to your language files
+      loadPath: __dirname + '/locales/{{lng}}/{{ns}}.json', // path to your language files
       loadPath: './locales/{{lng}}/{{ns}}.json'
     },
     detection: {
