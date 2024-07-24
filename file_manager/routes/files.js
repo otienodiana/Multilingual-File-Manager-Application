@@ -1,9 +1,19 @@
 const express = require('express');
+const File = require('../models/file');
 const multer = require('multer');
 const db = require('../config/db');
 const fileQueue = require('../config/queue');
 const router = express.Router();
 
+router.post('/files', async (req, res) => {
+  try {
+    const { name, size, path } = req.body; // Use 'path' here instead of 'directory'
+    if (!req.user) return res.status(401).send(req.t('unauthorized'));
+    const file = await File.create({ userId: req.user.id, name, size, path });
+    res.json({ message: req.t('file_uploaded'), file });
+  } catch (error) {
+    res.status(500).json({ message: req.t('error'), error: error.message });
+  }
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, 'uploads/');
@@ -35,6 +45,13 @@ fileQueue.process(async (job, done) => {
         });
 });
 
+router.get('/files', async (req, res) => {
+  try {
+    const files = await File.findAll({ where: { userId: req.user.id } });
+    res.json(files);
+  } catch (error) {
+    res.status(500).json({ message: req.t('error'), error: error.message });
+  }
 router.get('/list', (req, res) => {
     const userId = req.user.id;
 
@@ -44,6 +61,17 @@ router.get('/list', (req, res) => {
     });
 });
 
+router.put('/files/:id', async (req, res) => {
+  try {
+    const { name, size, path } = req.body; // Use 'path' here instead of 'directory'
+    const file = await File.findByPk(req.params.id);
+    if (!file) return res.status(404).send(req.t('file_not_found'));
+    if (file.userId !== req.user.id) return res.status(403).send(req.t('forbidden'));
+    await file.update({ name, size, path });
+    res.json(file);
+  } catch (error) {
+    res.status(500).json({ message: req.t('error'), error: error.message });
+  }
 router.post('/rename', (req, res) => {
     const { fileId, newName } = req.body;
 
@@ -62,6 +90,16 @@ router.post('/delete', (req, res) => {
     });
 });
 
+router.delete('/files/:id', async (req, res) => {
+  try {
+    const file = await File.findByPk(req.params.id);
+    if (!file) return res.status(404).send(req.t('file_not_found'));
+    if (file.userId !== req.user.id) return res.status(403).send(req.t('forbidden'));
+    await file.destroy();
+    res.send(req.t('file_deleted'));
+  } catch (error) {
+    res.status(500).json({ message: req.t('error'), error: error.message });
+  }
 router.get('/upload-status/:jobId', async (req, res) => {
     const job = await fileQueue.getJob(req.params.jobId);
 
