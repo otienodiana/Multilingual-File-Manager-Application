@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
-const User = require('../models/User');
+const User = require('../models/User'); // Ensure this path is correct
 
 // Registration route
-router.post('auth/register', async (req, res) => {
+router.post('/register', async (req, res) => {
   try {
     const { username, password } = req.body;
 
@@ -44,7 +44,5 @@ router.get('/logout', (req, res) => {
     res.status(200).send('Logged out');
   });
 });
-
-
 
 module.exports = router;

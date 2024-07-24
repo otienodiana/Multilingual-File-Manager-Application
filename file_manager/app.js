@@ -1,49 +1,38 @@
-
 const express = require('express');
-<<<<<<< HEAD
-=======
-const i18next = require('i18next');
-const i18nextMiddleware = require('i18next-http-middleware');
-const Backend = require('i18next-fs-backend');
-const middleware = require('i18next-http-middleware');
-const Backend = require('i18next-fs-backend');
->>>>>>> 5678f525ce63be6653ab372c815714779124f8e7
 const session = require('express-session');
 const passport = require('passport');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
-const sequelize = require('./config/db');
+const i18next = require('i18next');
+const i18nextMiddleware = require('i18next-http-middleware');
+const Backend = require('i18next-fs-backend');
+const sequelize = require('./config/db'); // Make sure this path is correct
 const authRoutes = require('./routes/auth');
+const fileRoutes = require('./routes/files'); // Ensure this file exists
+
 require('dotenv').config();
 
 // Initialize Express app
 const app = express();
 
-<<<<<<< HEAD
-// Middleware
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-=======
-i18next
-  .use(Backend)
-  .use(i18nextMiddleware.LanguageDetector)
-  .init
+// Middleware to parse request bodies
+app.use(express.json()); // For parsing application/json
+app.use(express.urlencoded({ extended: true })); // For parsing application/x-www-form-urlencoded
+
 // i18next initialization
 i18next
   .use(Backend)
-  .use(middleware.LanguageDetector)
+  .use(i18nextMiddleware.LanguageDetector)
   .init({
     fallbackLng: 'en',
     preload: ['en', 'es'], // languages to preload
     backend: {
-      loadPath: __dirname + '/locales/{{lng}}/{{ns}}.json', // path to your language files
-      loadPath: './locales/{{lng}}/{{ns}}.json'
+      loadPath: __dirname + '/locales/{{lng}}/{{ns}}.json' // Adjust the path if necessary
     },
     detection: {
       order: ['querystring', 'cookie'],
       caches: ['cookie']
     }
   });
->>>>>>> 5678f525ce63be6653ab372c815714779124f8e7
 
 // Session management
 const sessionStore = new SequelizeStore({ db: sequelize });
@@ -60,29 +49,15 @@ app.use(passport.session());
 
 // Define routes
 app.use('/auth', authRoutes);
+app.use('/files', fileRoutes); // Ensure this route is correct
 
+app.use(i18nextMiddleware.handle(i18next));
 
-<<<<<<< HEAD
-// Sync database and start server
-sequelize.sync()
-  .then(() => {
-    app.listen(process.env.PORT, () => {
-      console.log(`Server running on port ${process.env.PORT}`);
-    });
-  })
-  .catch(err => {
-    console.error('Unable to connect to the database:', err);
-  });
-=======
-app.use(middleware.handle(i18next));
-app.use('/files', fileRoutes);
-
-app.use('/api', fileRoutes);
-const PORT = process.env.PORT || 3000;
 // Error handling for unregistered routes
 app.use((req, res, next) => {
   res.status(404).send('Route not found');
 });
 
-app.listen(3000, () => console.log('Server running on port 3000'));
->>>>>>> 5678f525ce63be6653ab372c815714779124f8e7
+// Start server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
