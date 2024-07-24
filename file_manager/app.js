@@ -3,7 +3,9 @@ const session = require('express-session');
 const passport = require('passport');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const sequelize = require('./config/db');
+const path = require('path');
 const authRoutes = require('./routes/auth');
+const fileRoutes = require('./routes/files');
 require('dotenv').config();
 
 // Initialize Express app
@@ -32,11 +34,14 @@ app.use(passport.session());
 
 // Define routes
 app.use('/auth', authRoutes);
-
+app.use('/files', fileRoutes);
 // Error handling for unregistered routes
 app.use((req, res, next) => {
   res.status(404).send('Route not found');
 });
+
+// Serve static files from the 'uploads' directory
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Start server
 const PORT = process.env.PORT || 3000;
