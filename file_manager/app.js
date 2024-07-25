@@ -6,6 +6,7 @@ const sequelize = require('./config/db');
 const path = require('path');
 const authRoutes = require('./routes/auth');
 const fileRoutes = require('./routes/files');
+const flash = require('connect-flash');
 require('dotenv').config();
 
 // Initialize Express app
@@ -64,6 +65,8 @@ app.get('/manage-files', (req, res) => {
 app.use((req, res, next) => {
   res.status(404).send('Route not found');
 });
+
+app.use(flash());
 
 // Start server
 const PORT = process.env.PORT || 3000;

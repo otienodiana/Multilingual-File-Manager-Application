@@ -19,14 +19,16 @@ router.post('/register', async (req, res) => {
     }
 
     // Create a new user
-    const user = await User.create({ username, password });
+    await User.create({ username, password });
 
-    res.status(201).json({ message: 'User registered successfully', user });
+    // Redirect to the login page
+    res.redirect('/login');
   } catch (error) {
     console.error('Error registering user:', error);
     res.status(500).json({ message: 'Error registering user', error: error.message });
   }
 });
+
 
 // Login route
 router.post('/login', passport.authenticate('local', { session: true }), (req, res) => {
