@@ -1,58 +1,40 @@
 {
-  "dependencies": {
-    "bcrypt": "^5.1.1",
-    "bcryptjs": "^2.4.3",
-    "bull": "^4.15.1",
-    "connect-flash": "^0.1.1",
-    "connect-session-sequelize": "^7.1.7",
-    "dotenv": "^16.4.5",
-    "ejs": "^3.1.10",
-    "express": "^4.19.2",
-    "express-session": "^1.18.0",
-    "express-validator": "^7.1.0",
-    "helmet": "^7.1.0",
-    "i18next": "^23.12.2",
-    "i18next-fs-backend": "^2.3.1",
-    "i18next-http-middleware": "^3.6.0",
-    "i18next-node-fs-backend": "^1.2.1",
-    "jsonwebtoken": "^9.0.2",
-    "method-override": "^3.0.0",
-    "morgan": "^1.10.0",
-    "multer": "^1.4.5-lts.1",
-    "mysql": "^2.18.1",
-    "mysql2": "^3.10.3",
-    "passport": "^0.7.0",
-    "passport-local": "^1.0.0",
-    "path": "^0.12.7",
-    "redis": "^4.6.15",
-    "sequelize": "^6.37.3",
-    "session": "^0.1.0"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.24.9",
-    "@babel/preset-env": "^7.24.8",
-    "chai": "^5.1.1",
-    "eslint": "^9.7.0",
-    "jest": "^29.7.0",
-    "mocha": "^10.7.0",
-    "supertest": "^7.0.0"
-  },
-  "scripts": {
-    "test": "jest"
-  },
-  "jest": {
-    "transform": {
-      "^.+\\.js$": "babel-jest"
+    "name": "multilingual-file-manager",
+    "version": "1.0.0",
+    "main": "index.js",
+    "scripts": {
+        "test": "jest"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "description": "",
+    "dependencies": {
+        "bcrypt": "^5.1.1",
+        "bcryptjs": "^2.4.3",
+        "bull": "^4.15.1",
+        "connect-flash": "^0.1.1",
+        "connect-session-sequelize": "^7.1.7",
+        "dotenv": "^16.4.5",
+        "express": "^4.19.2",
+        "express-session": "^1.18.0",
+        "express-validator": "^7.1.0",
+        "i18next": "^23.12.2",
+        "i18next-fs-backend": "^2.3.1",
+        "i18next-http-middleware": "^3.6.0",
+        "jsonwebtoken": "^9.0.2",
+        "method-override": "^3.0.0",
+        "multer": "^1.4.5-lts.1",
+        "mysql": "^2.18.1",
+        "mysql2": "^3.10.3",
+        "passport": "^0.7.0",
+        "passport-local": "^1.0.0",
+        "redis": "^4.6.15",
+        "sequelize": "^6.37.3"
+    },
+    "devDependencies": {
+        "chai": "^5.1.1",
+        "eslint": "^9.7.0",
+        "mocha": "^10.7.0"
     }
-  },
-  "name": "file_manager",
-  "version": "1.0.0",
-  "main": ".eslintrc.js",
-  "directories": {
-    "test": "tests"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": ""
 }
