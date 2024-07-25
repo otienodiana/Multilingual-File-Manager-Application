@@ -31,10 +31,20 @@
   },
   "scripts": {
       "test": "jest"
-    },
+  },
     "jest": {
     "transform": {
       "^.+\\.js$": "babel-jest"
     }
-  }
+  },
+  "name": "file_manager",
+  "version": "1.0.0",
+  "main": ".eslintrc.js",
+  "directories": {
+    "test": "tests"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }

@@ -31,3 +31,7 @@ This project was developed by Engineer Flore and Diana Started on  21st Sunday 2
   });
 });
 
+ "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+
