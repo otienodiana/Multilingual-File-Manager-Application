@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manage Files</title>
+  <link rel="stylesheet" href="/styles/style.css">
+</head>
+<body>
+  <header>
+    <h1>Manage Files</h1>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/register">Register</a>
+      <a href="/login">Login</a>
+    </nav>
+  </header>
+  <main>
+    <form action="/files/upload" method="POST" enctype="multipart/form-data">
+      <label for="user_id">User ID:</label>
+      <input type="text" id="user_id" name="user_id" required>
+      
+      <label for="file">Select file:</label>
+      <input type="file" id="file" name="file" required>
+      
+      <button type="submit">Upload File</button>
+    </form>
+
+    <h2>Your Files</h2>
+    <!-- Add functionality to list files here -->
+  </main>
+</body>
+</html>
