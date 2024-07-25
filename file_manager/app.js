@@ -12,6 +12,8 @@ require('dotenv').config();
 // Initialize Express app
 const app = express();
 
+
+
 // Set view engine
 app.set('view engine', 'ejs');
 

@@ -22,8 +22,10 @@
     "mysql2": "^3.10.3",
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",
+    "path": "^0.12.7",
     "redis": "^4.6.15",
-    "sequelize": "^6.37.3"
+    "sequelize": "^6.37.3",
+    "session": "^0.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.24.9",
