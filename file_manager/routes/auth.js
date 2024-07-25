@@ -2,6 +2,11 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 const User = require('../models/User');
+const ensureAuthenticated = require('../middleware/authMiddleware'); 
+
+
+// Define ensureAuthenticated middleware
+
 
 // Registration route
 router.post('/register', async (req, res) => {
@@ -32,7 +37,7 @@ router.post('/register', async (req, res) => {
 
 // Login route
 router.post('/login', passport.authenticate('local', { session: true }), (req, res) => {
-  res.json(req.user);
+  res.redirect('/manage-files');
 });
 
 // Logout route

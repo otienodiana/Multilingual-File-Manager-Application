@@ -9,11 +9,7 @@
 <body>
   <header>
     <h1>Manage Files</h1>
-    <nav>
-      <a href="/">Home</a>
-      <a href="/register">Register</a>
-      <a href="/login">Login</a>
-    </nav>
+    
   </header>
   <main>
     <form action="/files/upload" method="POST" enctype="multipart/form-data">
@@ -27,7 +23,25 @@
     </form>
 
     <h2>Your Files</h2>
-    <!-- Add functionality to list files here -->
+    <ul>
+      <% files.forEach(file => { %>
+        <li>
+          <a href="/files/<%= file.id %>"><%= file.filename %></a>
+
+          <!-- Delete Form -->
+          <form action="/files/<%= file.id %>?_method=DELETE" method="POST" style="display: inline;">
+            <button type="submit">Delete</button>
+          </form>
+
+          <!-- Update Form -->
+          <form action="/files/<%= file.id %>?_method=PUT" method="POST" enctype="multipart/form-data" style="display: inline;">
+            <label for="update-file-<%= file.id %>">Update file:</label>
+            <input type="file" id="update-file-<%= file.id %>" name="file" required>
+            <button type="submit">Update</button>
+          </form>
+        </li>
+      <% }) %>
+    </ul>
   </main>
 </body>
 </html>

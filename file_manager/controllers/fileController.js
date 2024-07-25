@@ -70,21 +70,47 @@ const deleteFileById = (req, res) => {
     });
 };
 
+//getting all files
+const getAllFiles = (req, res) => {
+    fileModel.listFilesForUser(req.user.id, (err, files) => {
+        if (err) return res.status(500).send(err);
+        if (!files || files.length === 0) return res.status(404).send('No files found.');
+        res.status(200).json(files);
+    });
+};
+
+
+
+
 // List all files for a user
 const listFilesForUser = (req, res) => {
     const userId = req.params.userId;
 
     fileModel.listFilesForUser(userId, (err, files) => {
         if (err) return res.status(500).send(err);
-        res.status(200).send(files);
+        res.render('manage-files', { files }); // Pass the files to the EJS template
     });
+};
+
+// Render the manage files page
+const renderManageFilesPage = async (req, res) => {
+    try {
+        const userId = req.user.id; // Assuming the user is logged in and req.user is populated
+        const files = await fileModel.listFilesForUser(userId);
+        res.render('manage-files', { files });
+    } catch (error) {
+        console.error('Error fetching files:', error);
+        res.status(500).send('Internal Server Error');
+    }
 };
 
 module.exports = {
     upload,
+    getAllFiles,
     createFile,
     getFileById,
     updateFileById,
     deleteFileById,
-    listFilesForUser
+    listFilesForUser,
+    renderManageFilesPage // Export the new function
 };

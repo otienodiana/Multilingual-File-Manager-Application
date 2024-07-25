@@ -7,7 +7,11 @@ const path = require('path');
 const authRoutes = require('./routes/auth');
 const fileRoutes = require('./routes/files');
 const flash = require('connect-flash');
+const File = require('./models/fileModel'); // Adjust the path according to your file structure
 require('dotenv').config();
+const ensureAuthenticated = require('./middleware/authMiddleware'); // Updated path
+const fileModel = require('./models/fileModel');
+
 
 // Initialize Express app
 const app = express();
@@ -58,11 +62,18 @@ app.get('/login', (req, res) => {
   console.log('Login route accessed');
   res.render('login');
 });
-app.get('/manage-files', (req, res) => {
-  console.log('Manage Files route accessed');
-  res.render('manage-files');
-});
 
+app.get('/manage-files', ensureAuthenticated, (req, res) => {
+  const userId = req.user.id; // Assuming you have a user object in the request
+
+  fileModel.listFilesForUser(userId, (err, files) => {
+    if (err) {
+      console.error('Error fetching files:', err);
+      return res.status(500).json({ error: err.message });
+    }
+    res.render('manage-files', { files });
+  });
+});
 // Error handling for unregistered routes
 app.use((req, res, next) => {
   res.status(404).send('Route not found');
