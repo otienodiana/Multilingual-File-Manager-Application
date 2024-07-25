@@ -52,7 +52,7 @@ app.use('/files', fileRoutes); // File management routes
 // View routes
 app.get('/', (req, res) => {
   console.log('Home route accessed');
-  res.render('index');
+  res.render('home');
 });
 app.get('/register', (req, res) => {
   console.log('Register route accessed');
