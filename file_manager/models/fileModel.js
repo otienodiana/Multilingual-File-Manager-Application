@@ -4,7 +4,7 @@ const sequelize = require('../config/db');
 const File = sequelize.define('File', {
   user_id: {
     type: DataTypes.INTEGER,
-    allowNull: true
+    allowNull: false
   },
   filename: {
     type: DataTypes.STRING,

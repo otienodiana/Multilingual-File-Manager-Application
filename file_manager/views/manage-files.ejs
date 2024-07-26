@@ -1,44 +1,34 @@
 <!DOCTYPE html>
-<html lang="<%= req.language %>">
+<html lang="<%= language %>">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= req.t('manage_files_title') %></title>
+  <title><%= t('manage_files_title') %></title>
   <link rel="stylesheet" href="/styles/style.css">
 </head>
 <body>
   <header>
-    <h1><%= req.t('manage_files_header') %></h1>
+    <h1><%= t('manage_files_header') %></h1>
   </header>
   <main>
     <form action="/files/upload" method="POST" enctype="multipart/form-data">
-      <label for="file"><%= req.t('select_file') %>:</label>
+      <label for="file"><%= t('select_file') %>:</label>
       <input type="file" id="file" name="file" required>
-      
-      <button type="submit"><%= req.t('upload_file') %></button>
+      <button type="submit"><%= t('upload_file') %></button>
     </form>
 
-    <h2><%= req.t('your_files') %></h2>
+    <h2><%= t('your_files') %></h2>
     <ul>
       <% files.forEach(file => { %>
         <li>
-
-          <!-- View File Details Button -->
-          
-
-
           <a href="/files/<%= file.id %>"><%= file.filename %></a>
-
-          <!-- Delete Form -->
           <form action="/files/<%= file.id %>?_method=DELETE" method="POST" style="display: inline;">
-            <button type="submit"><%= req.t('delete_file') %></button>
+            <button type="submit"><%= t('delete_file') %></button>
           </form>
-
-          <!-- Update Form -->
           <form action="/files/<%= file.id %>?_method=PUT" method="POST" enctype="multipart/form-data" style="display: inline;">
-            <label for="update-file-<%= file.id %>"><%= req.t('update_file') %>:</label>
+            <label for="update-file-<%= file.id %>"><%= t('update_file') %>:</label>
             <input type="file" id="update-file-<%= file.id %>" name="file" required>
-            <button type="submit"><%= req.t('update') %></button>
+            <button type="submit"><%= t('update') %></button>
           </form>
         </li>
       <% }) %>
