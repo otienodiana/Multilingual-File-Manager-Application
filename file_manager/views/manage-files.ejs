@@ -21,10 +21,16 @@
     <ul>
       <% files.forEach(file => { %>
         <li>
-          <a href="/files/<%= file.id %>"><%= file.filename %></a>
+          <!-- Link to view or download the file -->
+          <a href="/uploads/<%= file.filename %>" target="_blank" class="btn btn-secondary">
+            <%= file.filename %>
+          </a>
+          <!-- Form to delete the file -->
           <form action="/files/<%= file.id %>?_method=DELETE" method="POST" style="display: inline;">
             <button type="submit"><%= t('delete_file') %></button>
           </form>
+
+          <!-- Form to update the file -->
           <form action="/files/<%= file.id %>?_method=PUT" method="POST" enctype="multipart/form-data" style="display: inline;">
             <label for="update-file-<%= file.id %>"><%= t('update_file') %>:</label>
             <input type="file" id="update-file-<%= file.id %>" name="file" required>

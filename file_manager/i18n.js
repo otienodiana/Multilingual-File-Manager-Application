@@ -7,15 +7,17 @@ i18next
   .use(middleware.LanguageDetector)
   .init({
     backend: {
-      loadPath: __dirname + '/locales/{{lng}}/{{ns}}.json'
+      loadPath: `${__dirname}/locales/{{lng}}/{{ns}}.json` // Ensure this path is correct
     },
     fallbackLng: 'en',
-    preload: ['en', 'fr'], // Add your supported languages here
+    preload: ['en', 'fr'], // Add your supported languages
     detection: {
       order: ['querystring', 'cookie', 'header'],
       caches: ['cookie']
     },
     whitelist: ['en', 'fr'], // List of allowed languages
+    ns: ['translation'], // Ensure this is set to default namespace
+    defaultNS: 'translation', // Default namespace
     debug: true // Enable debug for detailed logs
   });
 

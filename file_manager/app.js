@@ -14,6 +14,8 @@ const ensureAuthenticated = require('./middleware/authMiddleware'); // Updated p
 const fileModel = require('./models/fileModel');
 const i18next = require('./i18n');
 const i18nextMiddleware = require('i18next-http-middleware');
+const testRoutes = require('./routes/test');
+
 
 // Initialize Express app
 const app = express();
@@ -21,6 +23,8 @@ const app = express();
 // Initialize i18next middleware
 app.use(i18nextMiddleware.handle(i18next));
 
+// Define routes
+app.use('/test', testRoutes); // Mount the test routes
 // Set view engine
 app.set('view engine', 'ejs');
 
@@ -36,6 +40,11 @@ app.use(session({
   saveUninitialized: false,
   store: sessionStore
 }));
+
+
+// Use the test routes
+app.use('/test', testRoutes);
+
 
 // Initialize Passport
 require('./config/passport')(passport); // Ensure this line is present
@@ -96,12 +105,30 @@ app.get('/manage-files', ensureAuthenticated, (req, res) => {
   });
 });
 
+
+// View file by ID
+app.get('/uploads/:id', ensureAuthenticated, (req, res) => {
+  const fileId = req.params.id;
+
+  fileModel.getFileById(fileId, (err, file) => {
+    if (err) return res.status(500).send(err);
+    if (!file) return res.status(404).send('File not found.');
+
+    // Render the view with file details
+    res.render('view-file', { file });
+  });
+});
+
+
+
 // Error handling for unregistered routes
 app.use((req, res, next) => {
   res.status(404).send('Route not found');
 });
 
 app.use(flash());
+
+
 
 // Start server
 const PORT = process.env.PORT || 3000;

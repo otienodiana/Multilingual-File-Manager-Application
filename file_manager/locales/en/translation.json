@@ -16,12 +16,13 @@
   "register_title": "Register",
   "register_header": "Register",
   "register": "Register",
-  "manage_files_title": "Manage Files",
-  "manage_files_header": "Manage Files",
+  "manage_files_title": "File Management",
+  "manage_files_header": "File Management",
   "select_file": "Select file",
-  "upload_file": "Upload File",
+  "upload_file": "Upload",
   "your_files": "Your Files",
   "delete_file": "Delete",
   "update_file": "Update file",
-  "update": "Update"
+  "update": "Update",
+  "test_key": "Test Value"
 }
