@@ -52,7 +52,7 @@ const updateFileById = (req, res) => {
     const fileId = req.params.id;
     const fileData = req.body;
 
-    fileModel.updateFileById(fileId, fileData, (err, result) => {
+    fileModel.updateFileById(fileId,  (err, result) => {
         if (err) return res.status(500).send(err);
         if (result[0] === 0) return res.status(404).send('File not found.');
         res.status(200).send('File updated successfully.');
@@ -80,6 +80,18 @@ const getAllFiles = (req, res) => {
 };
 
 
+//view file by id
+const viewFile = (req, res) => {
+    const fileId = req.params.id;
+
+    fileModel.getFileById(fileId, (err, file) => {
+        if (err) return res.status(500).send(err);
+        if (!file) return res.status(404).send('File not found.');
+
+        // Render the view with file details
+        res.render('view-file', { file });
+    });
+};
 
 
 // List all files for a user
@@ -88,7 +100,7 @@ const listFilesForUser = (req, res) => {
 
     fileModel.listFilesForUser(userId, (err, files) => {
         if (err) return res.status(500).send(err);
-        res.render('manage-files', { files }); // Pass the files to the EJS template
+        res.render('manage-files', { files, userId }); // Pass the files to the EJS template
     });
 };
 
@@ -106,6 +118,7 @@ const renderManageFilesPage = async (req, res) => {
 
 module.exports = {
     upload,
+    viewFile,
     getAllFiles,
     createFile,
     getFileById,

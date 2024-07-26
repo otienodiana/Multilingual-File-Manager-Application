@@ -9,6 +9,7 @@ const fileRoutes = require('./routes/files');
 const flash = require('connect-flash');
 const File = require('./models/fileModel'); // Adjust the path according to your file structure
 require('dotenv').config();
+const multer = require('multer');
 const ensureAuthenticated = require('./middleware/authMiddleware'); // Updated path
 const fileModel = require('./models/fileModel');
 const i18next = require('./i18n');
