@@ -14,11 +14,25 @@ const ensureAuthenticated = require('./middleware/authMiddleware'); // Updated p
 const fileModel = require('./models/fileModel');
 const i18next = require('./i18n');
 const i18nextMiddleware = require('i18next-http-middleware');
+<<<<<<< HEAD
 const testRoutes = require('./routes/test');
 
+=======
+const Session = require('./models/session');
+>>>>>>> 4232fe446066e35c2b952d1fff2e75013af0df08
 
 // Initialize Express app
 const app = express();
+
+// Synchronize the database schema
+sequelize.sync({ alter: true }) // Use `force: true` if you want to drop and recreate tables
+  .then(() => {
+    console.log('Database schema synchronized');
+  })
+  .catch(err => {
+    console.error('Error synchronizing database schema:', err);
+  });
+
 
 // Initialize i18next middleware
 app.use(i18nextMiddleware.handle(i18next));
