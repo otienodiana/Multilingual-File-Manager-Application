@@ -9,12 +9,25 @@ const fileRoutes = require('./routes/files');
 const flash = require('connect-flash');
 const File = require('./models/fileModel'); // Adjust the path according to your file structure
 require('dotenv').config();
+const multer = require('multer');
 const ensureAuthenticated = require('./middleware/authMiddleware'); // Updated path
 const fileModel = require('./models/fileModel');
-
+const methodOverride = require('method-override');
 
 // Initialize Express app
 const app = express();
+
+app.use(methodOverride('_method'));
+
+// Multer configuration
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/'); // specify your upload directory
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + '-' + file.originalname);
+  }
+});
 
 
 

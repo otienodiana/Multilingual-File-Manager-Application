@@ -4,7 +4,7 @@ const sequelize = require('../config/db');
 const File = sequelize.define('File', {
   user_id: {
     type: DataTypes.INTEGER,
-    allowNull: false
+    allowNull: true
   },
   filename: {
     type: DataTypes.STRING,
@@ -57,9 +57,6 @@ const listFilesForUser = (userId, callback) => {
     .then(files => callback(null, files))
     .catch(err => callback(err, null));
 };
-
-
-
 
 module.exports = {
   createFile,
