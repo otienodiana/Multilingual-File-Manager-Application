@@ -1,29 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<%= req.language %>">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Manage Files</title>
+  <title><%= req.t('manage_files_title') %></title>
   <link rel="stylesheet" href="/styles/style.css">
 </head>
 <body>
   <header>
-    <h1>Manage Files</h1>
-    
+    <h1><%= req.t('manage_files_header') %></h1>
   </header>
   <main>
     <form action="/files/upload" method="POST" enctype="multipart/form-data">
-      
-      <label for="file">Select file:</label>
+      <label for="file"><%= req.t('select_file') %>:</label>
       <input type="file" id="file" name="file" required>
       
-      <button type="submit">Upload File</button>
-      <button type="submit">delete File</button>
+      <button type="submit"><%= req.t('upload_file') %></button>
     </form>
 
-    
-
-    <h2>Your Files</h2>
+    <h2><%= req.t('your_files') %></h2>
     <ul>
       <% files.forEach(file => { %>
         <li>
@@ -31,14 +26,14 @@
 
           <!-- Delete Form -->
           <form action="/files/<%= file.id %>?_method=DELETE" method="POST" style="display: inline;">
-            <button type="submit">Delete</button>
+            <button type="submit"><%= req.t('delete_file') %></button>
           </form>
 
           <!-- Update Form -->
           <form action="/files/<%= file.id %>?_method=PUT" method="POST" enctype="multipart/form-data" style="display: inline;">
-            <label for="update-file-<%= file.id %>">Update file:</label>
+            <label for="update-file-<%= file.id %>"><%= req.t('update_file') %>:</label>
             <input type="file" id="update-file-<%= file.id %>" name="file" required>
-            <button type="submit">Update</button>
+            <button type="submit"><%= req.t('update') %></button>
           </form>
         </li>
       <% }) %>

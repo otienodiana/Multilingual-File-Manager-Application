@@ -11,12 +11,14 @@ const File = require('./models/fileModel'); // Adjust the path according to your
 require('dotenv').config();
 const ensureAuthenticated = require('./middleware/authMiddleware'); // Updated path
 const fileModel = require('./models/fileModel');
-
+const i18next = require('./i18n');
+const i18nextMiddleware = require('i18next-http-middleware');
 
 // Initialize Express app
 const app = express();
 
-
+// Initialize i18next middleware
+app.use(i18nextMiddleware.handle(i18next));
 
 // Set view engine
 app.set('view engine', 'ejs');
@@ -44,6 +46,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Serve static files from 'uploads' directory
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.set('view engine', 'ejs');
 
 // Define routes
 app.use('/auth', authRoutes);  // Authentication routes
@@ -52,15 +55,32 @@ app.use('/files', fileRoutes); // File management routes
 // View routes
 app.get('/', (req, res) => {
   console.log('Home route accessed');
-  res.render('home');
+  res.render('home', { req });
 });
+
 app.get('/register', (req, res) => {
   console.log('Register route accessed');
-  res.render('register');
+  res.render('register', { req });
 });
+
 app.get('/login', (req, res) => {
   console.log('Login route accessed');
-  res.render('login');
+  res.render('login', { req });
+});
+
+// Example route
+app.get('/index', (req, res) => {
+  res.render('index', { 
+    title: req.t('welcome'), 
+    loginText: req.t('login'),
+    logoutText: req.t('logout'),
+    req // Pass req object here
+  });
+});
+
+app.get('/change-language/:lng', (req, res) => {
+  req.session.lng = req.params.lng;
+  res.redirect('back');
 });
 
 app.get('/manage-files', ensureAuthenticated, (req, res) => {
@@ -71,9 +91,10 @@ app.get('/manage-files', ensureAuthenticated, (req, res) => {
       console.error('Error fetching files:', err);
       return res.status(500).json({ error: err.message });
     }
-    res.render('manage-files', { files });
+    res.render('manage-files', { files, req });
   });
 });
+
 // Error handling for unregistered routes
 app.use((req, res, next) => {
   res.status(404).send('Route not found');

@@ -1,25 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<%= req.language %>">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Register</title>
+  <title><%= req.t('register_title') %></title>
   <link rel="stylesheet" href="/styles/style.css">
 </head>
 <body>
   <header>
-    <h1>Register</h1>
-    
+    <h1><%= req.t('register_header') %></h1>
   </header>
   <main>
     <form action="/auth/register" method="POST">
-      <label for="username">Username:</label>
+      <label for="username"><%= req.t('username') %>:</label>
       <input type="text" id="username" name="username" required>
       
-      <label for="password">Password:</label>
+      <label for="password"><%= req.t('password') %>:</label>
       <input type="password" id="password" name="password" required>
       
-      <button type="submit">Register</button>
+      <button type="submit"><%= req.t('register') %></button>
     </form>
   </main>
 </body>

@@ -1,5 +1,5 @@
 {
-    "name": "multilingual-file-manager",
+    "name": "file-manager",
     "version": "1.0.0",
     "main": "index.js",
     "scripts": {
@@ -16,10 +16,12 @@
         "connect-flash": "^0.1.1",
         "connect-session-sequelize": "^7.1.7",
         "dotenv": "^16.4.5",
+        "ejs": "^3.1.10",
         "express": "^4.19.2",
         "express-session": "^1.18.0",
         "express-validator": "^7.1.0",
         "i18next": "^23.12.2",
+        "i18next-express-middleware": "^2.0.0",
         "i18next-fs-backend": "^2.3.1",
         "i18next-http-middleware": "^3.6.0",
         "jsonwebtoken": "^9.0.2",
