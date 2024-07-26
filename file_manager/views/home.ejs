@@ -1,23 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<%= req.language %>">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Welcome to File Manager</title>
+  <title><%= req.t('dashboard_title') %></title>
   <link rel="stylesheet" href="/style.css">
-
 </head>
 <body>
   <header>
-    <h1>Welcome to Zungu File Manager Application</h1>
-    
+    <h1><%= req.t('dashboard_title') %></h1>
   </header>
   
   <div class="hero">
-    <h2>Your One-Stop Solution for File Management</h2>
-    <p>Efficiently manage and organize your files with ease. Our intuitive interface and powerful features are designed to streamline your workflow and enhance productivity.</p>
-    <a href="/register" class="cta-button">Get Started</a>
+    <h2><%= req.t('dashboard_hero') %></h2>
+    <p><%= req.t('dashboard_description') %></p>
+    <a href="/register" class="cta-button"><%= req.t('get_started') %></a>
   </div>
-  
 </body>
 </html>
