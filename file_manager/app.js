@@ -12,28 +12,49 @@ require('dotenv').config();
 const multer = require('multer');
 const ensureAuthenticated = require('./middleware/authMiddleware'); // Updated path
 const fileModel = require('./models/fileModel');
-const i18next = require('./i18n');
+const i18next = require('i18next');
 const Backend = require('i18next-fs-backend');
 const i18nextMiddleware = require('i18next-http-middleware');
 const testRoutes = require('./routes/test');
 const fs = require('fs');
+const middleware = require('i18next-http-middleware');
+const { setLanguage } = require('./config/language');
 
 // Initialize Express app
 const app = express();
 
-// i18next configuration
-i18next.use(Backend).use(i18nextMiddleware.LanguageDetector).init({
-  backend: {
-    loadPath: path.join(__dirname, '/locales/{{lng}}/{{ns}}.json')
-  },
-  fallbackLng: 'en',
-  preload: ['en', 'fr'], // Add your supported languages here
-  saveMissing: true
-});
+// i18next conf
+// Initialize i18next
+i18next
+  .use(Backend)
+  .use(i18nextMiddleware.LanguageDetector)
+  .init({
+    fallbackLng: 'en',
+    backend: {
+      loadPath: './locales/{{lng}}/translation.json'
+    },
+    detection: {
+      order: ['querystring', 'cookie'],
+      caches: ['cookie']
+    }
+  });
+
+// Use i18next middleware and custom language middleware
+app.use(i18nextMiddleware.handle(i18next));
+app.use(setLanguage);
+
+// Use i18next middleware
+app.use(middleware.handle(i18next));
+
+// Use your custom language setting middleware if needed
+app.use(setLanguage);
 
 // Middleware to use i18next
-app.use(i18nextMiddleware.handle(i18next));
-
+app.get('/change-language', (req, res) => {
+  const language = req.query.language;
+  res.cookie('i18next', language, { maxAge: 30 * 24 * 60 * 60 * 1000 }); // 30 days
+  res.redirect('back');
+});
 
 
 // Synchronize the database schema

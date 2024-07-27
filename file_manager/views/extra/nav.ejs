@@ -1,0 +1,15 @@
+<nav>
+    <h1>ZUNGU APP</h1>
+    <ul>
+        
+            <form id="languageForm" action="/change-language" method="GET">
+                <select id="languageSelect" name="language" onchange="this.form.submit()">
+                    <option value="en" <%= i18n.language === 'en' ? 'selected' : '' %>>English</option>
+                    
+                    <option value="fr" <%= i18n.language === 'fr' ? 'selected' : '' %>>Français</option>
+                    
+                </select>
+            </form>
+        </li>
+    </ul>
+</nav>

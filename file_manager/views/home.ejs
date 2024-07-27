@@ -1,20 +1,28 @@
 <!DOCTYPE html>
-<html lang="<%= req.language %>">
+<html lang="<%= i18n.language %>">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= req.t('dashboard_title') %></title>
+  <title><%= i18n.t('dashboard_title') %></title>
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
   <header>
-    <h1><%= req.t('dashboard_title') %></h1>
+    <nav class="navbar">
+      <h1>ZUNGU APP</h1>
+      <form id="languageForm" action="/change-language" method="GET">
+        <select id="languageSelect" name="language" onchange="this.form.submit()">
+          <option value="en" <%= i18n.language === 'en' ? 'selected' : '' %>>English</option>
+          <option value="fr" <%= i18n.language === 'fr' ? 'selected' : '' %>>Français</option>
+        </select>
+      </form>
+    </nav>
   </header>
   
   <div class="hero">
-    <h2><%= req.t('dashboard_hero') %></h2>
-    <p><%= req.t('dashboard_description') %></p>
-    <a href="/register" class="cta-button"><%= req.t('get_started') %></a>
+    <h2><%= i18n.t('dashboard_hero') %></h2>
+    <p><%= i18n.t('dashboard_description') %></p>
+    <a href="/register" class="cta-button"><%= i18n.t('get_started') %></a>
   </div>
 </body>
 </html>
