@@ -14,12 +14,8 @@ const ensureAuthenticated = require('./middleware/authMiddleware'); // Updated p
 const fileModel = require('./models/fileModel');
 const i18next = require('./i18n');
 const i18nextMiddleware = require('i18next-http-middleware');
-<<<<<<< HEAD
 const testRoutes = require('./routes/test');
-
-=======
-const Session = require('./models/session');
->>>>>>> 4232fe446066e35c2b952d1fff2e75013af0df08
+const fs = require('fs');
 
 // Initialize Express app
 const app = express();
@@ -33,12 +29,26 @@ sequelize.sync({ alter: true }) // Use `force: true` if you want to drop and rec
     console.error('Error synchronizing database schema:', err);
   });
 
-
 // Initialize i18next middleware
 app.use(i18nextMiddleware.handle(i18next));
 
-// Define routes
-app.use('/test', testRoutes); // Mount the test routes
+// In memory storage
+const filesData = []; // In-memory storage for file details
+
+// Configure Multer storage
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+    const newFilename = Date.now() + path.extname(file.originalname);
+    filesData.push({ originalName: file.originalname, filename: newFilename });
+    cb(null, newFilename);
+  }
+});
+
+const upload = multer({ storage });
+
 // Set view engine
 app.set('view engine', 'ejs');
 
@@ -55,22 +65,19 @@ app.use(session({
   store: sessionStore
 }));
 
-
-// Use the test routes
-app.use('/test', testRoutes);
-
-
 // Initialize Passport
 require('./config/passport')(passport); // Ensure this line is present
 app.use(passport.initialize());
 app.use(passport.session());
 
 // Serve static files from 'public' directory
-app.use(express.static(path.join(__dirname, 'public')));
-
-// Serve static files from 'uploads' directory
+console.log('Static files served from:', path.join(__dirname, 'uploads'));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-app.set('view engine', 'ejs');
+
+
+// Serve static files from the 'uploads' directory
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 
 // Define routes
 app.use('/auth', authRoutes);  // Authentication routes
@@ -119,21 +126,20 @@ app.get('/manage-files', ensureAuthenticated, (req, res) => {
   });
 });
 
+// Serve files from the 'uploads' directory
+app.get('/uploads/:filename', (req, res) => {
+  const filename = req.params.filename;
+  const filePath = path.join(__dirname, 'uploads', filename);
 
-// View file by ID
-app.get('/uploads/:id', ensureAuthenticated, (req, res) => {
-  const fileId = req.params.id;
+  fs.access(filePath, fs.constants.F_OK, (err) => {
+    if (err) {
+      console.error(`File not found: ${filePath}`);
+      return res.status(404).send('File not found.');
+    }
 
-  fileModel.getFileById(fileId, (err, file) => {
-    if (err) return res.status(500).send(err);
-    if (!file) return res.status(404).send('File not found.');
-
-    // Render the view with file details
-    res.render('view-file', { file });
+    res.sendFile(filePath);
   });
 });
-
-
 
 // Error handling for unregistered routes
 app.use((req, res, next) => {
@@ -141,8 +147,6 @@ app.use((req, res, next) => {
 });
 
 app.use(flash());
-
-
 
 // Start server
 const PORT = process.env.PORT || 3000;
