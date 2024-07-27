@@ -13,12 +13,28 @@ const multer = require('multer');
 const ensureAuthenticated = require('./middleware/authMiddleware'); // Updated path
 const fileModel = require('./models/fileModel');
 const i18next = require('./i18n');
+const Backend = require('i18next-fs-backend');
 const i18nextMiddleware = require('i18next-http-middleware');
 const testRoutes = require('./routes/test');
 const fs = require('fs');
 
 // Initialize Express app
 const app = express();
+
+// i18next configuration
+i18next.use(Backend).use(i18nextMiddleware.LanguageDetector).init({
+  backend: {
+    loadPath: path.join(__dirname, '/locales/{{lng}}/{{ns}}.json')
+  },
+  fallbackLng: 'en',
+  preload: ['en', 'fr'], // Add your supported languages here
+  saveMissing: true
+});
+
+// Middleware to use i18next
+app.use(i18nextMiddleware.handle(i18next));
+
+
 
 // Synchronize the database schema
 sequelize.sync({ alter: true }) // Use `force: true` if you want to drop and recreate tables
@@ -30,6 +46,20 @@ sequelize.sync({ alter: true }) // Use `force: true` if you want to drop and rec
   });
 
 // Initialize i18next middleware
+i18next
+  .use(Backend)
+  .use(i18nextMiddleware.LanguageDetector)
+  .init({
+    fallbackLng: 'en',
+    backend: {
+      loadPath: __dirname + '/locales/{{lng}}/translation.json'
+    },
+    detection: {
+      order: ['querystring', 'cookie'],
+      caches: ['cookie']
+    }
+  });
+
 app.use(i18nextMiddleware.handle(i18next));
 
 // In memory storage
@@ -88,7 +118,7 @@ app.use('/files', fileRoutes); // File management routes
 
 // View routes
 app.get('/', (req, res) => {
-  console.log('Home route accessed');
+  console.log(req.t('dashboard_title')); // Check if this logs the expected translation
   res.render('home', { req });
 });
 
