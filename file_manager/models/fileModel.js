@@ -44,6 +44,20 @@ const updateFileById = (fileId, fileData, callback) => {
     .catch(err => callback(err, null));
 };
 
+//function for viewing a file
+const viewFile = (req, res) => {
+  const fileId = req.params.id;
+
+  fileModel.getFileById(fileId, (err, file) => {
+      if (err) return res.status(500).send(err);
+      if (!file) return res.status(404).send('File not found.');
+
+      // Render the view with file details
+      res.render('view-file', { file });
+  });
+};
+
+
 // Function to delete a file by ID
 const deleteFileById = (fileId, callback) => {
   File.destroy({ where: { id: fileId } })
@@ -59,6 +73,7 @@ const listFilesForUser = (userId, callback) => {
 };
 
 module.exports = {
+  viewFile,
   createFile,
   getFileById,
   updateFileById,

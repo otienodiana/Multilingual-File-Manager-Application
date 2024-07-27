@@ -17,6 +17,9 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+
+
+
 // Use method override to support PUT and DELETE methods
 router.use(methodOverride('_method'));
 
@@ -27,6 +30,6 @@ router.get('/:id', fileController.getFileById);
 router.put('/:id',upload.single('file'), fileController.updateFileById);
 router.delete('/:id', fileController.deleteFileById);
 router.get('/user/:userId', fileController.listFilesForUser);
-router.get('/:id/', fileController.viewFile);
+router.get('uploads/:id/', fileController.viewFileById);
 
 module.exports = router;

@@ -2,7 +2,7 @@ require('dotenv').config();
 
 const { Sequelize } = require('sequelize');
 
-const sequelize = new Sequelize('filemanage_db', 'root', 'Hotcocoaa7.,', {
+const sequelize = new Sequelize('filemanage_db', 'root', 'Alustudent2022!', {
   host: 'localhost',
   dialect: 'mysql'
 });

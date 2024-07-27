@@ -95,17 +95,25 @@ const getAllFiles = (req, res) => {
 };
 
 // View file by ID
-const viewFile = (req, res) => {
+const viewFileById = (req, res) => {
     const fileId = req.params.id;
 
+    // Call the model method to get file details
     fileModel.getFileById(fileId, (err, file) => {
-        if (err) return res.status(500).send(err);
-        if (!file) return res.status(404).send('File not found.');
+        if (err) {
+            // Handle any errors that occur
+            return res.status(500).send(err);
+        }
+        if (!file) {
+            // Handle case where file is not found
+            return res.status(404).send('File not found.');
+        }
 
-        // Render the view with file details
-        res.render('view-file', { file });
+        // Render the view with the file details
+        res.render('uploads/', { file });
     });
 };
+
 
 // List all files for a user
 const listFilesForUser = (req, res) => {
@@ -131,7 +139,7 @@ const renderManageFilesPage = async (req, res) => {
 
 module.exports = {
     upload,
-    viewFile,
+    viewFileById,
     getAllFiles,
     createFile,
     getFileById,

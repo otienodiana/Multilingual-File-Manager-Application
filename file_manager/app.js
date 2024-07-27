@@ -14,7 +14,8 @@ const ensureAuthenticated = require('./middleware/authMiddleware'); // Updated p
 const fileModel = require('./models/fileModel');
 const i18next = require('./i18n');
 const i18nextMiddleware = require('i18next-http-middleware');
-const Session = require('./models/session');
+const testRoutes = require('./routes/test');
+const fs = require('fs');
 
 // Initialize Express app
 const app = express();
@@ -28,9 +29,25 @@ sequelize.sync({ alter: true }) // Use `force: true` if you want to drop and rec
     console.error('Error synchronizing database schema:', err);
   });
 
-
 // Initialize i18next middleware
 app.use(i18nextMiddleware.handle(i18next));
+
+// In memory storage
+const filesData = []; // In-memory storage for file details
+
+// Configure Multer storage
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+    const newFilename = Date.now() + path.extname(file.originalname);
+    filesData.push({ originalName: file.originalname, filename: newFilename });
+    cb(null, newFilename);
+  }
+});
+
+const upload = multer({ storage });
 
 // Set view engine
 app.set('view engine', 'ejs');
@@ -54,11 +71,13 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Serve static files from 'public' directory
-app.use(express.static(path.join(__dirname, 'public')));
-
-// Serve static files from 'uploads' directory
+console.log('Static files served from:', path.join(__dirname, 'uploads'));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-app.set('view engine', 'ejs');
+
+
+// Serve static files from the 'uploads' directory
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 
 // Define routes
 app.use('/auth', authRoutes);  // Authentication routes
@@ -104,6 +123,21 @@ app.get('/manage-files', ensureAuthenticated, (req, res) => {
       return res.status(500).json({ error: err.message });
     }
     res.render('manage-files', { files, req });
+  });
+});
+
+// Serve files from the 'uploads' directory
+app.get('/uploads/:filename', (req, res) => {
+  const filename = req.params.filename;
+  const filePath = path.join(__dirname, 'uploads', filename);
+
+  fs.access(filePath, fs.constants.F_OK, (err) => {
+    if (err) {
+      console.error(`File not found: ${filePath}`);
+      return res.status(404).send('File not found.');
+    }
+
+    res.sendFile(filePath);
   });
 });
 
