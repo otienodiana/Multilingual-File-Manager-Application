@@ -1,0 +1,108 @@
+/* styles.css */
+
+/* Ensure full viewport height */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Center content vertically and horizontally */
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f4f4f4;
+}
+
+/* Header styles */
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    width: 100%;
+    text-align: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* Header title styles */
+header h1 {
+    margin: 0;
+    font-size: 1.8rem;
+}
+
+/* Main content container styles */
+main {
+    padding: 30px;
+    max-width: 500px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    margin: 80px 0; /* Adjust margin to account for the header */
+}
+
+/* Form styles */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px; /* Space between form elements */
+}
+
+/* Label styles */
+label {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Input field styles */
+input {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    width: 100%;
+}
+
+/* Button styles */
+button {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    padding: 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+    width: 100%;
+}
+
+/* Button hover styles */
+button:hover {
+    background-color: #555;
+}
+
+/* Optional: Add some responsiveness */
+@media (max-width: 600px) {
+    header {
+        padding: 15px;
+    }
+
+    header h1 {
+        font-size: 1.5rem;
+    }
+
+    main {
+        padding: 20px;
+    }
+
+    button {
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+}

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><%= t('manage_files_title') %></title>
-  <link rel="stylesheet" href="/styles/style.css">
+  <link rel="stylesheet" href="/manage-files.css">
 </head>
 <body>
   <header>
@@ -27,15 +27,11 @@
           </a>
           <!-- Form to delete the file -->
           <form action="/files/<%= file.id %>?_method=DELETE" method="POST" style="display: inline;">
-            <button type="submit"><%= t('delete_file') %></button>
+            <button type="submit" class="delete-btn"><%= t('delete_file') %></button>
           </form>
 
           <!-- Form to update the file -->
-          
-            
-            
-            <button type="submit"><%= t('update') %></button>
-          
+          <button type="submit" class="update-btn"><%= t('update') %></button>
         </li>
       <% }) %>
     </ul>
