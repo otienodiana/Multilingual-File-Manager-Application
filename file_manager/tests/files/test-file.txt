@@ -1,3 +1,0 @@
-This is a test file.
-It contains some sample text to be used for testing file uploads.
-You can replace this with any content relevant to your tests.
