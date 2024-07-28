@@ -20,6 +20,7 @@
     <h2><%= t('your_files') %></h2>
     <ul>
       <% files.forEach(file => { %>
+        
         <li>
           <!-- Link to view or download the file -->
           <a href="/uploads/<%= encodeURIComponent(file.filename) %>" target="_blank" class="btn btn-secondary">
