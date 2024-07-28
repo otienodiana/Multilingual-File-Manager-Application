@@ -22,7 +22,7 @@
       <% files.forEach(file => { %>
         <li>
           <!-- Link to view or download the file -->
-          <a href="/uploads/<%= file.filename %>" target="_blank" class="btn btn-secondary">
+          <a href="/uploads/<%= encodeURIComponent(file.filename) %>" target="_blank" class="btn btn-secondary">
             <%= file.filename %>
           </a>
           <!-- Form to delete the file -->

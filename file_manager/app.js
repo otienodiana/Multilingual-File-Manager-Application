@@ -100,6 +100,10 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
+
+
+
+
 // Set view engine
 app.set('view engine', 'ejs');
 
@@ -182,7 +186,7 @@ app.get('/manage-files', ensureAuthenticated, (req, res) => {
 
 // Serve files from the 'uploads' directory
 app.get('/uploads/:filename', (req, res) => {
-  const filename = req.params.filename;
+  const filename = decodeURIComponent(req.params.filename);
   const filePath = path.join(__dirname, 'uploads', filename);
 
   fs.access(filePath, fs.constants.F_OK, (err) => {

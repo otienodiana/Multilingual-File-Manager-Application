@@ -3,16 +3,24 @@ const path = require('path');
 const fileModel = require('../models/fileModel');
 
 // Set up multer storage
+// Configure Multer storage
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'uploads/');
+      cb(null, 'uploads/');
     },
     filename: (req, file, cb) => {
-        cb(null, Date.now() + path.extname(file.originalname));
+      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+      const filename = uniqueSuffix + path.extname(file.originalname);
+      cb(null, filename);
     }
-});
+  });
+  
+  const upload = multer({ storage: storage });
+  
+  
+  
+  
 
-const upload = multer({ storage });
 
 // Create a file entry
 const createFile = (req, res) => {

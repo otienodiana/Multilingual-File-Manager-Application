@@ -14,7 +14,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #f4f4f4;
+    background-color: #e2c8c8d3;
 }
 
 /* Header styles */
@@ -39,7 +39,7 @@ header h1 {
 main {
     padding: 30px;
     max-width: 500px;
-    background: #fff;
+    background: #f39c9c;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     width: 100%;
